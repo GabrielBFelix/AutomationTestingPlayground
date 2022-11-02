@@ -1,2 +1,2 @@
 # AutomationTestingPlayground
-Repository for training with new testing frameworks and tools
+Repository for training new testing frameworks and tools
