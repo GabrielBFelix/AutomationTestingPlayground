@@ -79,4 +79,10 @@ local.properties
 .scala_dependencies
 .worksheet
 
+# Log4j Logs
+*.log
+
+# Selenium Test Output
+test-output/
+
 # ------------------------------------------------------------------------------- #
