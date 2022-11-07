@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -27,6 +28,7 @@ public class BaseTest {
 	public static FileReader locatorsFr;
 
 	public static Logger log = LogManager.getLogger();
+	public static WebDriverWait wait;
 
 	@BeforeSuite
 	public void setUp() {
@@ -72,6 +74,8 @@ public class BaseTest {
 		driver.manage().timeouts()
 				.implicitlyWait(Duration.ofSeconds(Integer.parseInt(prop.getProperty("implicit.wait"))));
 		log.debug("Implicit wait time set");
+		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		log.debug("WebDriverWait with 5 seconds set");
 	}
 
 	@AfterMethod
