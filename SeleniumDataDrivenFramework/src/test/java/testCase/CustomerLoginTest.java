@@ -17,6 +17,8 @@ public class CustomerLoginTest extends BaseTest {
 		Assert.assertTrue(isElementPresent(By.id(loc.getProperty("user_Select"))));
 
 		log.debug("loginAsCustomer Test finished");
+
+		Assert.fail();
 	}
 
 }

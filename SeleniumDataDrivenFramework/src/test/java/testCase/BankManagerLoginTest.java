@@ -17,6 +17,8 @@ public class BankManagerLoginTest extends BaseTest {
 		Assert.assertTrue(isElementPresent(By.cssSelector(loc.getProperty("addCustomer_Button"))));
 
 		log.debug("loginAsBankManager Test finished");
+
+		Assert.fail();
 	}
 
 }
