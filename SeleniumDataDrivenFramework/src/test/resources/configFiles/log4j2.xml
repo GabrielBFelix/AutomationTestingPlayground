@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="filename">./src/test/resources/logs</Property>
+	</Properties>
+	<Appenders>
+
+		<RollingFile append="False" name="applicationFile" fileName="${filename}/application.log" filePattern="${filename}/application.%d{HH-mm-ss}.log">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%t] [%l] - %msg%n</pattern>
+			</PatternLayout>
+			<SizeBasedTriggeringPolicy size="1000 KB" />
+		</RollingFile>
+
+		<RollingFile append="False" name="seleniumFile" fileName="${filename}/selenium.log" filePattern="${filename}/selenium.%d{HH-mm-ss}.log">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss} %msg%n</pattern>
+			</PatternLayout>
+			<SizeBasedTriggeringPolicy size="1000 KB" />
+		</RollingFile>
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%-5level] %d{DEFAULT} %c:%L - %m%n" />
+		</Console>
+
+	</Appenders>
+	<Loggers>
+		<Logger name="io.netty" level="OFF">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.apache.poi" level="WARN">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="applicationFile" />
+		</Logger>
+
+		<Logger name="base.BaseTest" level="DEBUG" additivity="false">
+			<AppenderRef ref="seleniumFile" />
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="applicationFile" />
+		</Logger>
+
+		<Root level="ALL">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="applicationFile" />
+		</Root>
+
+	</Loggers>
+
+</Configuration>

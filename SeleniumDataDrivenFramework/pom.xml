@@ -122,6 +122,17 @@
 
 		</plugins>
 
+		<testResources>
+
+			<testResource>
+				<directory>src/test/resources/configFiles</directory>
+				<includes>
+					<include>log4j2.xml</include>
+				</includes>
+			</testResource>
+
+		</testResources>
+
 	</build>
 
 </project>

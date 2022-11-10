@@ -20,10 +20,6 @@ public class CustomListeners extends BaseTest implements ITestListener {
 
 		Reporter.log("Click to see screenshot");
 		Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + ">Screenshot</a>");
-		Reporter.log("<br>");
-		Reporter.log("<br>");
-		Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + "><img src=" + TestUtil.screenshotName
-				+ " height=200 width=200></a>");
 		rep.endTest(test);
 		rep.flush();
 

@@ -13,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -23,6 +25,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utilities.ExtentManager;
+import utilities.TestUtil;
 
 public class BaseTest {
 
@@ -134,6 +137,27 @@ public class BaseTest {
 		}
 
 		test.log(LogStatus.INFO, "Typing on : " + locator + "entered value as " + text);
-		log.debug("Typing on : " + locator + "entered value as " + text);
+		log.debug("Typing on : " + locator + " entered value as " + text);
 	}
+
+	public static void verifyEquals(String expected, String actual) {
+
+		try {
+			Assert.assertEquals(actual, expected);
+		} catch (Throwable t) {
+			TestUtil.captureScreenshot();
+			// ReportNG
+			Reporter.log("<br>" + "Verification failure : " + t.getMessage() + "<br>");
+			Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + "><img src=" + TestUtil.screenshotName
+					+ " height=200 width=200></a>");
+			Reporter.log("<br>");
+			Reporter.log("<br>");
+			// Extent Reports
+			test.log(LogStatus.FAIL, " Verification failed with exception : " + t.getMessage());
+			test.log(LogStatus.FAIL, test.addScreenCapture(TestUtil.screenshotName));
+
+		}
+
+	}
+
 }

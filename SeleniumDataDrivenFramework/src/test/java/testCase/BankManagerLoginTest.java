@@ -10,6 +10,7 @@ public class BankManagerLoginTest extends BaseTest {
 
 	@Test
 	public void loginAsBankManager() {
+		verifyEquals("abc", "xyz");
 		click("bankManagerLoginBtn_CSS");
 		Assert.assertTrue(isElementPresent(By.cssSelector(loc.getProperty("addCustomerBtn_CSS"))));
 	}
