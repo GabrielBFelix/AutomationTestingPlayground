@@ -10,14 +10,8 @@ public class BankManagerLoginTest extends BaseTest {
 
 	@Test
 	public void loginAsBankManager() {
-		log.debug("loginAsBankManager Test started");
-		driver.findElement(By.cssSelector(loc.getProperty("bankManagerLogin_Button"))).click();
-		log.debug("Bank Manager Login button clicked");
-
-		Assert.assertTrue(isElementPresent(By.cssSelector(loc.getProperty("addCustomer_Button"))));
-
-		log.debug("loginAsBankManager Test finished");
-
+		click("bankManagerLoginBtn_CSS");
+		Assert.assertTrue(isElementPresent(By.cssSelector(loc.getProperty("addCustomerBtn_CSS"))));
 		Assert.fail();
 	}
 

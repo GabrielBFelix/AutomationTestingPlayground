@@ -10,15 +10,8 @@ public class CustomerLoginTest extends BaseTest {
 
 	@Test
 	public void loginAsCustomer() {
-		log.debug("loginAsCustomer Test started");
-		driver.findElement(By.cssSelector(loc.getProperty("customerLogin_Button"))).click();
-		log.debug("Customer Login button clicked");
-
-		Assert.assertTrue(isElementPresent(By.id(loc.getProperty("user_Select"))));
-
-		log.debug("loginAsCustomer Test finished");
-
-		Assert.fail();
+		click("customerLoginBtn_CSS");
+		Assert.assertTrue(isElementPresent(By.id(loc.getProperty("userSlct_ID"))));
 	}
 
 }
