@@ -9,7 +9,7 @@ import base.BaseTest;
 public class CustomerLogin extends BaseTest {
 
 	@Test
-	public void loginAsCustomer() {
+	public void customerLogin() {
 		click("customerLoginBtn_CSS");
 		Assert.assertTrue(isElementPresent(By.id(loc.getProperty("userSlct_ID"))));
 	}

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.SkipException;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -24,9 +25,6 @@ public class CustomListeners extends BaseTest implements ITestListener {
 
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
 		TestUtil.captureScreenshot();
-		// test.log(LogStatus.FAIL, result.getName().toUpperCase() + " Failed with
-		// exception : " + result.getThrowable());
-		// test.log(LogStatus.FAIL, test.addScreenCapture(TestUtil.screenshotName));
 
 		Reporter.log("Click to see screenshot");
 		Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + ">Screenshot</a>");
@@ -43,6 +41,9 @@ public class CustomListeners extends BaseTest implements ITestListener {
 
 		// Log into extent reports
 		test = extent.startTest(arg.getName().toUpperCase());
+		if (!TestUtil.isTestRunnable(arg.getName(), excel)) {
+			throw new SkipException("Skipping the test" + arg.getName().toUpperCase() + " as the Run mode is N");
+		}
 
 	}
 
@@ -53,6 +54,13 @@ public class CustomListeners extends BaseTest implements ITestListener {
 		// Log into extent reports
 		test.log(LogStatus.PASS, result.getName().toUpperCase() + " PASS");
 
+		extent.endTest(test);
+		extent.flush();
+	}
+
+	public void onTestSkipped(ITestResult arg) {
+
+		test.log(LogStatus.SKIP, arg.getName().toUpperCase() + " Skipped the test as the Run mode is N");
 		extent.endTest(test);
 		extent.flush();
 	}
