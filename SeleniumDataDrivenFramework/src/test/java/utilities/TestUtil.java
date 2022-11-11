@@ -1,18 +1,12 @@
 package utilities;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Hashtable;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.Reporter;
@@ -44,33 +38,30 @@ public class TestUtil extends BaseTest {
 	}
 
 	@DataProvider(name = "testdata")
-	public String[][] getData(Method m) {
+	public Object[][] getData(Method m) {
 
-		String excelSheetName = m.getName(); // Get sheet name
-		File f = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\testData\\testdata.xlsx");
-		Workbook wb = null;
-		try {
-			FileInputStream fis = new FileInputStream(f);
-			wb = WorkbookFactory.create(fis);
-		} catch (EncryptedDocumentException | IOException e) {
-			e.printStackTrace();
+		String sheetName = m.getName();
+		int rows = excel.getRowCount(sheetName);
+		int cols = excel.getColumnCount(sheetName);
+
+		Object[][] data = new Object[rows - 1][1];
+
+		Hashtable<String, String> table = null;
+
+		for (int rowNum = 2; rowNum <= rows; rowNum++) { // 2
+
+			table = new Hashtable<String, String>();
+
+			for (int colNum = 0; colNum < cols; colNum++) {
+
+				// data[0][0]
+				table.put(excel.getCellData(sheetName, colNum, 1), excel.getCellData(sheetName, colNum, rowNum));
+				data[rowNum - 2][0] = table;
+			}
+
 		}
-		Sheet dataSheet = wb.getSheet(excelSheetName);
 
-		int totalRows = dataSheet.getLastRowNum(); // Get number of rows
-		Row rowCells = dataSheet.getRow(0);
-		int totalCols = rowCells.getLastCellNum(); // Get number of cells
-
-		DataFormatter format = new DataFormatter();
-
-		String testData[][] = new String[totalRows][totalCols];
-		// Iterate through testdata sheet (ignoring the first row), format cell values
-		// and store them on "testData" 2d array variable
-		for (int i = 1; i <= totalRows; i++)
-			for (int j = 0; j < totalCols; j++)
-				testData[i - 1][j] = format.formatCellValue(dataSheet.getRow(i).getCell(j));
-
-		return testData;
+		return data;
 
 	}
 
