@@ -10,21 +10,27 @@
 
 	</listeners>
 
-	<test thread-count="5" name="Add Customer Test">
+	<test name="Add Customer">
 		<classes>
 			<class name="testCase.AddCustomer"></class>
 		</classes>
 	</test>
 
-	<test thread-count="5" name="Customer Login Test">
+	<test name="Customer Login">
 		<classes>
-			<class name="testCase.CustomerLoginTest"></class>
+			<class name="testCase.CustomerLogin"></class>
 		</classes>
 	</test>
 
-	<test thread-count="5" name="Bank Manager Login Test">
+	<test name="Bank Manager Login">
 		<classes>
-			<class name="testCase.BankManagerLoginTest"></class>
+			<class name="testCase.BankManagerLogin"></class>
+		</classes>
+	</test>
+	
+	<test name="Open Account">
+		<classes>
+			<class name="testCase.OpenAccount"></class>
 		</classes>
 	</test>
 
