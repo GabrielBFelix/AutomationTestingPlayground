@@ -6,13 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
-import utilities.ExcelReader;
+import utilities.TestUtil;
 
 public class AddCustomer extends BaseTest {
 
-	@Test(dataProviderClass = ExcelReader.class, dataProvider = "testdata")
+	@Test(dataProviderClass = TestUtil.class, dataProvider = "testdata")
 	public void addCustomer(String firstName, String lastName, String postCode, String alertText) {
-
 		click("bankManagerLoginBtn_CSS");
 		click("addCustomerBtn_CSS");
 		type("firstNameInp_CSS", firstName);

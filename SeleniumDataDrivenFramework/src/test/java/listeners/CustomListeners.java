@@ -1,27 +1,37 @@
 package listeners;
 
+import java.util.Date;
+
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 import base.BaseTest;
+import utilities.ExtentManager;
 import utilities.TestUtil;
 
 public class CustomListeners extends BaseTest implements ITestListener {
+	static Date d = new Date();
+	static String fileName = "Extent_" + d.toString().replace(":", "_").replace(" ", "_") + ".html";
+	private static ExtentReports extent = ExtentManager.getInstance();
+	public static ThreadLocal<ExtentTest> testReport = new ThreadLocal<ExtentTest>();
 
 	public void onTestFailure(ITestResult result) {
 
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
 		TestUtil.captureScreenshot();
-		test.log(LogStatus.FAIL, result.getName().toUpperCase() + " Failed with exception : " + result.getThrowable());
-		test.log(LogStatus.FAIL, test.addScreenCapture(TestUtil.screenshotName));
+		// test.log(LogStatus.FAIL, result.getName().toUpperCase() + " Failed with
+		// exception : " + result.getThrowable());
+		// test.log(LogStatus.FAIL, test.addScreenCapture(TestUtil.screenshotName));
 
 		Reporter.log("Click to see screenshot");
 		Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + ">Screenshot</a>");
-		rep.endTest(test);
-		rep.flush();
+		extent.endTest(test);
+		extent.flush();
 
 		// Log into log file
 		log.debug(result.getName() + " FAILED");
@@ -29,10 +39,8 @@ public class CustomListeners extends BaseTest implements ITestListener {
 
 	public void onTestStart(ITestResult arg) {
 		// Log into extent reports
-		test = rep.startTest(arg.getName().toUpperCase());
+		test = extent.startTest(arg.getName().toUpperCase());
 
-		// Log into log file
-		log.debug(arg.getName() + " Test started");
 	}
 
 	public void onTestSuccess(ITestResult result) {
@@ -42,8 +50,8 @@ public class CustomListeners extends BaseTest implements ITestListener {
 		// Log into extent reports
 		test.log(LogStatus.PASS, result.getName().toUpperCase() + " PASS");
 
-		rep.endTest(test);
-		rep.flush();
+		extent.endTest(test);
+		extent.flush();
 	}
 
 }

@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -19,12 +21,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import utilities.ExtentManager;
+import utilities.ExcelReader;
 import utilities.TestUtil;
 
 public class BaseTest {
@@ -35,9 +36,10 @@ public class BaseTest {
 	public static FileReader configFr;
 	public static FileReader locatorsFr;
 	public static WebDriverWait wait;
+	public static ExcelReader excel = new ExcelReader(
+			System.getProperty("user.dir") + "\\src\\test\\resources\\testData\\testdata.xlsx");
 
 	public static Logger log = LogManager.getLogger();
-	public static ExtentReports rep = ExtentManager.getInstance();
 	public static ExtentTest test;
 
 	@BeforeSuite
@@ -54,7 +56,6 @@ public class BaseTest {
 				loc.load(locatorsFr);
 				log.debug("Locators file loaded");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -63,15 +64,11 @@ public class BaseTest {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 			log.debug("Chrome Launched");
-		}
-
-		else if (prop.getProperty("browser").equalsIgnoreCase("firefox")) {
+		} else if (prop.getProperty("browser").equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 			log.debug("Firefox Launched");
-		}
-
-		else if (prop.getProperty("browser").equalsIgnoreCase("edge")) {
+		} else if (prop.getProperty("browser").equalsIgnoreCase("edge")) {
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 			log.debug("Edge Launched");
@@ -158,6 +155,24 @@ public class BaseTest {
 
 		}
 
+	}
+
+	static WebElement dropdown;
+
+	public void select(String locator, String value) {
+		if (locator.endsWith("_CSS")) {
+			dropdown = driver.findElement(By.cssSelector(loc.getProperty(locator)));
+		} else if (locator.endsWith("_XPATH")) {
+			dropdown = driver.findElement(By.xpath(loc.getProperty(locator)));
+		} else if (locator.endsWith("_ID")) {
+			dropdown = driver.findElement(By.id(loc.getProperty(locator)));
+		}
+
+		Select select = new Select(dropdown);
+		select.selectByVisibleText(value);
+
+		test.log(LogStatus.INFO, "Selecting from dropdown : " + locator + "value as " + value);
+		log.debug("Selecting from dropdown : " + locator + "value as " + value);
 	}
 
 }
