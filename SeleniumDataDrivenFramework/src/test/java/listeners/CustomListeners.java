@@ -38,6 +38,9 @@ public class CustomListeners extends BaseTest implements ITestListener {
 	}
 
 	public void onTestStart(ITestResult arg) {
+		// Log into log file
+		log.debug(arg.getName().toUpperCase() + " TEST START");
+
 		// Log into extent reports
 		test = extent.startTest(arg.getName().toUpperCase());
 

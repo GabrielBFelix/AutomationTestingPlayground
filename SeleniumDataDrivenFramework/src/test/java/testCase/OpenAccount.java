@@ -8,19 +8,18 @@ import org.testng.annotations.Test;
 import base.BaseTest;
 import utilities.TestUtil;
 
-public class AddCustomer extends BaseTest {
+public class OpenAccount extends BaseTest {
 
 	@Test(dataProviderClass = TestUtil.class, dataProvider = "testdata")
-	public void addCustomer(String firstName, String lastName, String postCode) {
+	public void openAccount(String customer, String currency) {
 		click("bankManagerLoginBtn_CSS");
-		click("addCustomerBtn_CSS");
-		type("firstNameInp_CSS", firstName);
-		type("lastNameInp_CSS", lastName);
-		type("postCodeInp_CSS", postCode);
-		click("submitCustomerBtn_CSS");
+		click("openAccountBtn_CSS");
+		select("customerSlct_ID", customer);
+		select("currencySlct_ID", currency);
+		click("processBtn_XPATH");
 
 		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-		Assert.assertTrue(alert.getText().contains("Customer added successfully with customer id :"));
+		Assert.assertTrue(alert.getText().contains("Account created successfully with account Number :"));
 		alert.accept();
 	}
 

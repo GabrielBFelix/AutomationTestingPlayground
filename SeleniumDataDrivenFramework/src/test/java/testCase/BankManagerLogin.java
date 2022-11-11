@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 
-public class BankManagerLoginTest extends BaseTest {
+public class BankManagerLogin extends BaseTest {
 
 	@Test
 	public void loginAsBankManager() {
